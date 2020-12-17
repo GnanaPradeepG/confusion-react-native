@@ -1,12 +1,11 @@
 import React, { Component } from 'react';
-// import { View, Button } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-// import { createDrawerNavigator } from '@react-navigation/drawer';
-// import { Icon } from 'react-native-elements';
+import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Icon } from 'react-native-elements';
 import Menu from './MenuComponent';
 import Dishdetail from './DishDetailComponent';
-// import Home from './HomeComponent';
+import Home from './HomeComponent';
 
 
 {/** Navigation Part 1 - Menu and Dishdetail */}
@@ -41,42 +40,42 @@ function MenuNavigatorScreen({ navigation }) {
 
 {/** Navigation Part 2 - Home and Drawer Navigation */}
 
-// const HomeNavigator = createStackNavigator();
+const HomeNavigator = createStackNavigator();
 
-// function HomeNavigatorScreen({ navigation }) {
-//   return(
-//       <HomeNavigator.Navigator
-//           initialRouteName='Home'
-//           screenOptions={{
-//               headerStyle: {
-//                   backgroundColor: "#512DA8"
-//               },
-//               headerTintColor: "#fff",
-//               headerTitleStyle: {
-//                   color: "#fff"            
-//               }
-//           }}
-//       >
-//           <HomeNavigator.Screen
-//               name="Home"
-//               component={Home}
-//           />         
-//       </HomeNavigator.Navigator>
-//   );
-// }
+function HomeNavigatorScreen({ navigation }) {
+  return(
+      <HomeNavigator.Navigator
+          initialRouteName='Home'
+          screenOptions={{
+              headerStyle: {
+                  backgroundColor: "#512DA8"
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                  color: "#fff"            
+              }
+          }}
+      >
+          <HomeNavigator.Screen
+              name="Home"
+              component={Home}
+          />         
+      </HomeNavigator.Navigator>
+  );
+}
 
-// const Drawer = createDrawerNavigator();
+const Drawer = createDrawerNavigator();
 
-// function MainNavigator({ navigation }) {
-//     return(
+function MainNavigator({ navigation }) {
+    return(
 
-//         <Drawer.Navigator initialRouteName="Home">
-//           <Drawer.Screen name="Home" component={HomeNavigatorScreen} />
-//           <Drawer.Screen name="Menu" component={MenuNavigatorScreen} />
-//         </Drawer.Navigator>
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeNavigatorScreen} />
+          <Drawer.Screen name="Menu" component={MenuNavigatorScreen} />
+        </Drawer.Navigator>
 
-//     );
-// }
+    );
+}
   
 class Main extends Component {
 
@@ -84,7 +83,7 @@ class Main extends Component {
  
     return (
       <NavigationContainer>   
-        <MenuNavigatorScreen />
+        <MainNavigator />
       </NavigationContainer>
     );
   }
