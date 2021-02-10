@@ -148,12 +148,12 @@ export const addPromos = (promos) => ({
 export const fetchLeaders = () => (dispatch) => {
     
   dispatch(leadersLoading());
-
   return fetch(baseUrl + 'leaders')
   .then(response => {
       if (response.ok) {
         return response;
       } else {
+        console.log(response)
         var error = new Error('Error ' + response.status + ': ' + response.statusText);
         error.response = response;
         throw error;
