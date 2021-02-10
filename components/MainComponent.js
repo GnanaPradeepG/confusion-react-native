@@ -3,14 +3,13 @@ import { Image, SafeAreaView, StyleSheet, Text, View } from "react-native";
 import { Icon } from 'react-native-elements';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator , DrawerContentScrollView , DrawerItemList} from '@react-navigation/drawer';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 
 import Menu from './MenuComponent';
 import Dishdetail from './DishDetailComponent';
 import Home from './HomeComponent';
-
-
-const MenuNavigator = createStackNavigator();
+import About from "./AboutComponent";
+import Contact from "./ContactComponent";
 
 const StackNavigatorIcon = ({ navigation }) => {
     return (
@@ -49,6 +48,8 @@ const CustomDrawerContentComponent = (props) => (
         </SafeAreaView>
     </DrawerContentScrollView>
 );
+
+const MenuNavigator = createStackNavigator();
 
 function MenuNavigatorScreen({ navigation }) {
     return (
@@ -107,6 +108,61 @@ function HomeNavigatorScreen({ navigation }) {
     );
 }
 
+
+const AboutNavigator = createStackNavigator();
+
+function AboutNavigatorScreen({ navigation }) {
+    return (
+        <AboutNavigator.Navigator
+            initialRouteName='Home'
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"
+                }
+            }}
+        >
+            <AboutNavigator.Screen
+                name="About"
+                component={About}
+                options={{
+                    headerLeft: () => <StackNavigatorIcon navigation={navigation} />
+                }}
+            />
+        </AboutNavigator.Navigator>
+    );
+}
+
+const ContactNavigator = createStackNavigator();
+
+function ContactNavigatorScreen({ navigation }) {
+    return (
+        <ContactNavigator.Navigator
+            initialRouteName='Home'
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"
+                }
+            }}
+        >
+            <ContactNavigator.Screen
+                name="Contact"
+                component={Contact}
+                options={{
+                    headerLeft: () => <StackNavigatorIcon navigation={navigation} />
+                }}
+            />
+        </ContactNavigator.Navigator>
+    );
+}
+
 const Drawer = createDrawerNavigator();
 
 function MainNavigator({ navigation }) {
@@ -126,6 +182,16 @@ function MainNavigator({ navigation }) {
             <Drawer.Screen name="Menu" component={MenuNavigatorScreen}
                 options={{
                     drawerIcon: () => <DrawerNavigatorIcon name='list' />
+                }}
+            />
+            <Drawer.Screen name="About" component={AboutNavigatorScreen}
+                options={{
+                    drawerIcon: () => <DrawerNavigatorIcon name='info-circle' />
+                }}
+            />
+            <Drawer.Screen name="Contact" component={ContactNavigatorScreen}
+                options={{
+                    drawerIcon: () => <DrawerNavigatorIcon name='address-card' />
                 }}
             />
         </Drawer.Navigator>
