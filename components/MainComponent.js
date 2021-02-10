@@ -6,9 +6,9 @@ import { Icon } from 'react-native-elements';
 import Menu from './MenuComponent';
 import Dishdetail from './DishDetailComponent';
 import Home from './HomeComponent';
+import ContactUs from './ContactComponent';
+import AboutUs from './AboutComponent';
 
-
-{/** Navigation Part 1 - Menu and Dishdetail */}
 const MenuNavigator = createStackNavigator();
 
 function MenuNavigatorScreen({ navigation }) {
@@ -38,8 +38,6 @@ function MenuNavigatorScreen({ navigation }) {
     );
 }
 
-{/** Navigation Part 2 - Home and Drawer Navigation */}
-
 const HomeNavigator = createStackNavigator();
 
 function HomeNavigatorScreen({ navigation }) {
@@ -64,6 +62,54 @@ function HomeNavigatorScreen({ navigation }) {
   );
 }
 
+const AboutUsNavigator = createStackNavigator();
+
+function AboutUsNavigatorScreen({ navigation }) {
+  return(
+      <AboutUsNavigator.Navigator
+      initialRouteName='About Us'
+          screenOptions={{
+              headerStyle: {
+                  backgroundColor: "#512DA8"
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                  color: "#fff"            
+              }
+          }}
+      >
+          <AboutUsNavigator.Screen
+              name="About Us"
+              component={AboutUs}
+          />         
+      </AboutUsNavigator.Navigator>
+  );
+}
+
+const ContactUsNavigator = createStackNavigator();
+
+function ContactUsNavigatorScreen({ navigation }) {
+  return(
+      <ContactUsNavigator.Navigator
+      initialRouteName='Contact Us'
+          screenOptions={{
+              headerStyle: {
+                  backgroundColor: "#512DA8"
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                  color: "#fff"            
+              }
+          }}
+      >
+          <ContactUsNavigator.Screen
+              name="Contact Us"
+              component={ContactUs}
+          />         
+      </ContactUsNavigator.Navigator>
+  );
+}
+
 const Drawer = createDrawerNavigator();
 
 function MainNavigator({ navigation }) {
@@ -72,6 +118,8 @@ function MainNavigator({ navigation }) {
         <Drawer.Navigator initialRouteName="Home">
           <Drawer.Screen name="Home" component={HomeNavigatorScreen} />
           <Drawer.Screen name="Menu" component={MenuNavigatorScreen} />
+          <Drawer.Screen name="About Us" component={AboutUsNavigatorScreen} />
+          <Drawer.Screen name="Contact Us" component={ContactUsNavigatorScreen} />
         </Drawer.Navigator>
 
     );
