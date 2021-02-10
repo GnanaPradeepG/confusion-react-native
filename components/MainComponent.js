@@ -8,7 +8,6 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import Menu from './MenuComponent';
 import Dishdetail from './DishDetailComponent';
 import Home from './HomeComponent';
-<<<<<<< HEAD
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 
@@ -68,12 +67,6 @@ const CustomDrawerContentComponent = (props) => (
         </SafeAreaView>
     </DrawerContentScrollView>
 );
-
-=======
-import ContactUs from './ContactComponent';
-import AboutUs from './AboutComponent';
-
->>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
 const MenuNavigator = createStackNavigator();
 
 function MenuNavigatorScreen({ navigation }) {
@@ -240,8 +233,6 @@ const Drawer = createDrawerNavigator();
 
 function MainNavigator({ navigation }) {
     return (
-
-<<<<<<< HEAD
         <Drawer.Navigator initialRouteName="Home"
             drawerStyle={{
                 backgroundColor: "#D1C4E9"
@@ -268,13 +259,6 @@ function MainNavigator({ navigation }) {
                     drawerIcon: () => <DrawerNavigatorIcon name='address-card' />
                 }}
             />
-=======
-        <Drawer.Navigator initialRouteName="Home">
-          <Drawer.Screen name="Home" component={HomeNavigatorScreen} />
-          <Drawer.Screen name="Menu" component={MenuNavigatorScreen} />
-          <Drawer.Screen name="About Us" component={AboutUsNavigatorScreen} />
-          <Drawer.Screen name="Contact Us" component={ContactUsNavigatorScreen} />
->>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
         </Drawer.Navigator>
 
     );
