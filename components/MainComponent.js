@@ -8,6 +8,7 @@ import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '
 import Menu from './MenuComponent';
 import Dishdetail from './DishDetailComponent';
 import Home from './HomeComponent';
+<<<<<<< HEAD
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 
@@ -68,6 +69,11 @@ const CustomDrawerContentComponent = (props) => (
     </DrawerContentScrollView>
 );
 
+=======
+import ContactUs from './ContactComponent';
+import AboutUs from './AboutComponent';
+
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
 const MenuNavigator = createStackNavigator();
 
 function MenuNavigatorScreen({ navigation }) {
@@ -182,11 +188,60 @@ function ContactNavigatorScreen({ navigation }) {
     );
 }
 
+const AboutUsNavigator = createStackNavigator();
+
+function AboutUsNavigatorScreen({ navigation }) {
+  return(
+      <AboutUsNavigator.Navigator
+      initialRouteName='About Us'
+          screenOptions={{
+              headerStyle: {
+                  backgroundColor: "#512DA8"
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                  color: "#fff"            
+              }
+          }}
+      >
+          <AboutUsNavigator.Screen
+              name="About Us"
+              component={AboutUs}
+          />         
+      </AboutUsNavigator.Navigator>
+  );
+}
+
+const ContactUsNavigator = createStackNavigator();
+
+function ContactUsNavigatorScreen({ navigation }) {
+  return(
+      <ContactUsNavigator.Navigator
+      initialRouteName='Contact Us'
+          screenOptions={{
+              headerStyle: {
+                  backgroundColor: "#512DA8"
+              },
+              headerTintColor: "#fff",
+              headerTitleStyle: {
+                  color: "#fff"            
+              }
+          }}
+      >
+          <ContactUsNavigator.Screen
+              name="Contact Us"
+              component={ContactUs}
+          />         
+      </ContactUsNavigator.Navigator>
+  );
+}
+
 const Drawer = createDrawerNavigator();
 
 function MainNavigator({ navigation }) {
     return (
 
+<<<<<<< HEAD
         <Drawer.Navigator initialRouteName="Home"
             drawerStyle={{
                 backgroundColor: "#D1C4E9"
@@ -213,6 +268,13 @@ function MainNavigator({ navigation }) {
                     drawerIcon: () => <DrawerNavigatorIcon name='address-card' />
                 }}
             />
+=======
+        <Drawer.Navigator initialRouteName="Home">
+          <Drawer.Screen name="Home" component={HomeNavigatorScreen} />
+          <Drawer.Screen name="Menu" component={MenuNavigatorScreen} />
+          <Drawer.Screen name="About Us" component={AboutUsNavigatorScreen} />
+          <Drawer.Screen name="Contact Us" component={ContactUsNavigatorScreen} />
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
         </Drawer.Navigator>
 
     );

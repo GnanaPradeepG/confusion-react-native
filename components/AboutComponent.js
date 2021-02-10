@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Card } from 'react-native-elements';
 import { Text, ScrollView, Image, FlatList } from 'react-native';
 import { ListItem } from 'react-native-elements';
+<<<<<<< HEAD
 // import { LEADERS } from '../shared/leaders';
 
 import { connect } from 'react-redux';
@@ -12,6 +13,10 @@ const mapStateToProps = state => {
       leaders: state.leaders
     }
   }
+=======
+import { LEADERS } from '../shared/leaders';
+
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
 
 const History = () => {
     return(
@@ -37,16 +42,33 @@ const History = () => {
 
 class AboutUs extends Component {
 
+<<<<<<< HEAD
+=======
+    constructor(props) {
+        super(props);
+        this.state = {
+            leaders: LEADERS
+        }
+    }
+
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
     static navigationOptions = {
         title: 'About Us'
     }
 
     render() {
 
+<<<<<<< HEAD
         const renderLeader = ({ item }) => {
             return (
                 <ListItem>
                     <Image style={{ width: 50, height: 50, borderRadius: 25 }} source={{uri: baseUrl + item.image}} />
+=======
+        const renderLeader = ({ item, index }) => {
+            return (
+                <ListItem>
+                    <Image style={{ width: 50, height: 50, borderRadius: 25 }} source={require('./images/alberto.png')} />
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
                     <ListItem.Content>
                         <ListItem.Title>{item.name}</ListItem.Title>
                         <ListItem.Subtitle>{item.description}</ListItem.Subtitle>
@@ -62,7 +84,11 @@ class AboutUs extends Component {
                 <History />
                 <Card>
                     <FlatList
+<<<<<<< HEAD
                         data={this.props.leaders.leaders}
+=======
+                        data={this.state.leaders}
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
                         renderItem={renderLeader}
                         keyExtractor={item => item.id.toString()}
                     />
@@ -71,4 +97,8 @@ class AboutUs extends Component {
         );
     }
 }
+<<<<<<< HEAD
 export default connect(mapStateToProps)(AboutUs);
+=======
+export default AboutUs;
+>>>>>>> 1bc3b570956119194ee25ceba0f0697f7e379379
