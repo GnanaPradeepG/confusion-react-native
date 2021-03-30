@@ -8,6 +8,7 @@ import { Comments } from "./comments";
 import { Leaders } from "./leaders";
 import { Promotions } from "./promotions";
 import { InitialFeedback } from './forms';
+import { favorites } from './favorites';
 
 export const configureStore = () =>{
     const store = createStore(
@@ -16,9 +17,11 @@ export const configureStore = () =>{
             comments : Comments,
             leaders : Leaders,
             promotions : Promotions,
+            favorites,
             ...createForms({
                 feedback : InitialFeedback
             })
+            
         }),
         // applyMiddleware(thunk , logger)
         applyMiddleware(thunk)

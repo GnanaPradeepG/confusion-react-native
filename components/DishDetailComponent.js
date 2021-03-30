@@ -5,13 +5,19 @@ import { connect } from 'react-redux';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 import { baseUrl } from '../shared/baseUrl';
+import { postFavorite } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
       dishes: state.dishes,
-      comments: state.comments
+      comments: state.comments,
+      favorites: state.favorites
     }
   }
+
+const mapDispatchToProps = dispatch => ({
+    postFavorite: (dishId) => dispatch(postFavorite(dishId))
+})
 
 class Dishdetail extends Component {
 
@@ -28,33 +34,35 @@ class Dishdetail extends Component {
 
     markFavorite(dishId) {
         this.setState({favorites: this.state.favorites.concat(dishId)});
+        this.props.postFavorite(dishId);
     }
 
     render() {
         const dishId = this.props.route.params.dishId;
-        console.log(this.props.dishes)
-
+        
+        // console.log(this.props.dishes.dishes[+dishId])
         return (
-            <ScrollView>
-                <RenderDish dish={this.props.dishes[+dishId]}
-                    favorite={this.state.favorites.some(el => el === dishId)}
+            <View>
+                <RenderDish dish={this.props.dishes.dishes[+dishId]}
+                    favorite={this.props.favorites.some(el => el === dishId)}
                     onPress={() => this.markFavorite(dishId)} 
                     />
                 <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
-            </ScrollView>
+            </View>
         )
     }
 }
 
 function RenderDish(props) {
-    // console.log(props)
+    
     const dish = props.dish;
+    console.log(dish)
 
     if (dish != null) {
         return (
             <Card>
                 <Card.Title >{dish.name}</Card.Title>
-                <Image style={{ width: 350 }} source={{uri : baseUrl + item.image}} />
+                <Image style={{ width: 350 }} source={{uri : baseUrl + dish.image}} />
                 <Text style={{ margin: 10 }}>
                     {dish.description}
                 </Text>
@@ -99,4 +107,4 @@ function RenderComments(props) {
     );
 }
 
-export default connect(mapStateToProps)(Dishdetail);
+export default connect(mapStateToProps, mapDispatchToProps)(Dishdetail);
