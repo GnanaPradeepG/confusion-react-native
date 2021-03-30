@@ -33,7 +33,6 @@ class Dishdetail extends Component {
     };
 
     markFavorite(dishId) {
-        this.setState({favorites: this.state.favorites.concat(dishId)});
         this.props.postFavorite(dishId);
     }
 
@@ -42,13 +41,13 @@ class Dishdetail extends Component {
         
         // console.log(this.props.dishes.dishes[+dishId])
         return (
-            <View>
+            <ScrollView>
                 <RenderDish dish={this.props.dishes.dishes[+dishId]}
                     favorite={this.props.favorites.some(el => el === dishId)}
                     onPress={() => this.markFavorite(dishId)} 
                     />
                 <RenderComments comments={this.props.comments.comments.filter((comment) => comment.dishId === dishId)} />
-            </View>
+            </ScrollView>
         )
     }
 }
@@ -56,7 +55,6 @@ class Dishdetail extends Component {
 function RenderDish(props) {
     
     const dish = props.dish;
-    console.log(dish)
 
     if (dish != null) {
         return (
