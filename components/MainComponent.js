@@ -13,7 +13,7 @@ import Contact from "./ContactComponent";
 import Reservation from './ReservationComponent';
 
 import { connect } from 'react-redux';
-import { fetchDishes, fetchComments, fetchPromos, fetchLeaders } from '../redux/ActionCreators';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders , postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -29,6 +29,7 @@ const mapDispatchToProps = dispatch => ({
     fetchComments: () => dispatch(fetchComments()),
     fetchPromos: () => dispatch(fetchPromos()),
     fetchLeaders: () => dispatch(fetchLeaders()),
+    postComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 })
 
 const StackNavigatorIcon = ({ navigation }) => {
