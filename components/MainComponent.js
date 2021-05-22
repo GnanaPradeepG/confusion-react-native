@@ -11,9 +11,10 @@ import Home from './HomeComponent';
 import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import Reservation from './ReservationComponent';
+import Favorites from './FavoritesComponent';
 
 import { connect } from 'react-redux';
-import { fetchDishes, fetchComments, fetchPromos, fetchLeaders , postComment } from '../redux/ActionCreators';
+import { fetchDishes, fetchComments, fetchPromos, fetchLeaders, postComment } from '../redux/ActionCreators';
 
 const mapStateToProps = state => {
     return {
@@ -211,6 +212,33 @@ function ReservationNavigatorScreen({ navigation }) {
     );
 }
 
+const FavoritesNavigator = createStackNavigator();
+
+function FavoritesNavigatorScreen({ navigation }) {
+    return (
+        <FavoritesNavigator.Navigator
+            initialRouteName='Favorites'
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#512DA8"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"
+                }
+            }}
+        >
+            <FavoritesNavigator.Screen
+                name="Favorites"
+                component={Favorites}
+                options={{
+                    headerLeft: () => <StackNavigatorIcon navigation={navigation} />
+                }}
+            />
+        </FavoritesNavigator.Navigator>
+    );
+}
+
 const Drawer = createDrawerNavigator();
 
 function MainNavigator({ navigation }) {
@@ -245,6 +273,11 @@ function MainNavigator({ navigation }) {
             <Drawer.Screen name="Reservation" component={ReservationNavigatorScreen}
                 options={{
                     drawerIcon: () => <DrawerNavigatorIcon name='cutlery' />
+                }}
+            />
+            <Drawer.Screen name="Favorites" component={FavoritesNavigatorScreen}
+                options={{
+                    drawerIcon: () => <DrawerNavigatorIcon name='heart' />
                 }}
             />
         </Drawer.Navigator>

@@ -1,37 +1,41 @@
-import React, { Component } from 'react'
-import {View , FlatList ,Image , Text} from 'react-native';
+import React, { Component } from 'react';
+import { FlatList, View, Text } from 'react-native';
 import {Tile} from 'react-native-elements';
-
 import { connect } from 'react-redux';
-import { baseUrl } from '../shared/baseUrl';
 import { Loading } from './LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 const mapStateToProps = state => {
     return {
-      dishes: state.dishes
+      dishes: state.dishes,
+      favorites: state.favorites
     }
   }
 
-class Menu extends Component{
+class Favorites extends Component {
 
     static navigationOptions = {
-        title : 'Menu'
-    }
-    render(){
-        const {navigate} = this.props.navigation;
+        title: 'My Favorites'
+    };
 
+    render() {
+
+        const { navigate } = this.props.navigation;
+        
         const renderMenuItem = ({item, index}) => {
-            return(
+    
+            return (
+
                 <Tile
-                    key={index}
-                    title={item.name}
-                    caption={item.description}
-                    featured
-                    onPress={() => navigate('Dishdetail', { dishId: item.id })}
-                    imageSrc={{ uri: baseUrl + item.image}}
-                    />
+                key={index}
+                title={item.name}
+                caption={item.description}
+                featured
+                onPress={() => navigate('Dishdetail', { dishId: item.id })}
+                imageSrc={{ uri: baseUrl + item.image}}
+                />
             );
-        }
+        };
 
         if (this.props.dishes.isLoading) {
             return(
@@ -48,7 +52,7 @@ class Menu extends Component{
         else {
             return (
                 <FlatList 
-                    data={this.props.dishes.dishes}
+                    data={this.props.dishes.dishes.filter(dish => this.props.favorites.some(el => el === dish.id))}
                     renderItem={renderMenuItem}
                     keyExtractor={item => item.id.toString()}
                     />
@@ -57,4 +61,5 @@ class Menu extends Component{
     }
 }
 
-export default connect(mapStateToProps)(Menu);
+
+export default connect(mapStateToProps)(Favorites);
