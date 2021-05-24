@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { FlatList, View, Text , TouchableOpacity ,Animated } from 'react-native';
+import { FlatList, View, Text, TouchableOpacity, Animated } from 'react-native';
 import { ListItem } from 'react-native-elements';
 import { connect } from 'react-redux';
 import Swipeout from 'react-native-swipeout';
@@ -8,6 +8,7 @@ import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 import { deleteFavorite } from '../redux/ActionCreators';
 import { Alert } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = state => {
     return {
@@ -24,10 +25,10 @@ class Favorites extends Component {
 
     static navigationOptions = {
         title: 'My Favorites'
-    };    
+    };
 
     render() {
-        
+
 
         const { navigate } = this.props.navigation;
 
@@ -36,13 +37,13 @@ class Favorites extends Component {
         const renderMenuItem = ({ item, index }) => {
             const rightButton = () => {
                 const RenderAlert = () => {
-                    return(
+                    return (
                         Alert.alert(
                             'Delete Favorite?',
                             'Are you sure you wish to delete the favorite dish ' + item.name + '?',
                             [
-                                { 
-                                    text: 'Cancel', 
+                                {
+                                    text: 'Cancel',
                                     onPress: () => console.log(item.name + 'Not Deleted'),
                                     style: ' cancel'
                                 },
@@ -55,29 +56,33 @@ class Favorites extends Component {
                         )
                     )
                 }
-                return(
-                        <TouchableOpacity onPress={RenderAlert}>
-                            <View style={{flex:1, backgroundColor: 'red', justifyContent: 'center'}}>
-                                <Animated.Text style={{color: 'white', paddingHorizontal: 10,
-                                        fontWeight:'600'}}>
-                                            Delete
+                return (
+                    <TouchableOpacity onPress={RenderAlert}>
+                        <View style={{ flex: 1, backgroundColor: 'red', justifyContent: 'center' }}>
+                            <Animated.Text style={{
+                                color: 'white', paddingHorizontal: 10,
+                                fontWeight: '600'
+                            }}>
+                                Delete
                                 </Animated.Text>
-                            </View>
-                        </TouchableOpacity>
+                        </View>
+                    </TouchableOpacity>
                 );
             }
 
             return (
-                <Swipeable renderRightActions={rightButton}>
-                    <ListItem
-                        key={index}
-                        title={item.name}
-                        subtitle={item.description}
-                        hideChevron={true}
-                        onPress={() => navigate('Dishdetail', { dishId: item.id })}
-                        leftAvatar={{ source: {uri: baseUrl + item.image}}}
+                <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+                    <Swipeable renderRightActions={rightButton}>
+                        <ListItem
+                            key={index}
+                            title={item.name}
+                            subtitle={item.description}
+                            hideChevron={true}
+                            onPress={() => navigate('Dishdetail', { dishId: item.id })}
+                            leftAvatar={{ source: { uri: baseUrl + item.image } }}
                         />
-                </Swipeable>
+                    </Swipeable>
+                </Animatable.View>
             );
         };
 
@@ -106,4 +111,4 @@ class Favorites extends Component {
 }
 
 
-export default connect(mapStateToProps , mapDispatchToProps)(Favorites);
+export default connect(mapStateToProps, mapDispatchToProps)(Favorites);

@@ -1,13 +1,14 @@
 import React, { Component } from 'react'
 import { Text, View, Image, StyleSheet } from 'react-native';
-import { Card, Icon, Rating , Input } from 'react-native-elements';
+import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
 
 import { baseUrl } from '../shared/baseUrl';
-import { postFavorite , postComment} from '../redux/ActionCreators';
+import { postFavorite, postComment } from '../redux/ActionCreators';
 import { Modal } from 'react-native';
 import { Button } from 'react-native';
+import * as Animatable from 'react-native-animatable';
 
 const mapStateToProps = state => {
     return {
@@ -19,7 +20,7 @@ const mapStateToProps = state => {
 
 const mapDispatchToProps = dispatch => ({
     postFavorite: (dishId) => dispatch(postFavorite(dishId)),
-    addComment : (dishId , rating , author , comment) => dispatch(postComment(dishId , rating , author , comment))
+    addComment: (dishId, rating, author, comment) => dispatch(postComment(dishId, rating, author, comment))
 })
 
 class Dishdetail extends Component {
@@ -30,8 +31,8 @@ class Dishdetail extends Component {
             favorites: [],
             toggleModal: false,
             rating: 0,
-            author : '',
-            comment : ''
+            author: '',
+            comment: ''
         }
     }
 
@@ -44,16 +45,16 @@ class Dishdetail extends Component {
     }
 
     handleCommentSubmit = (dishId) => {
-        this.props.addComment(dishId , this.state.rating , this.state.author , this.state.comment);
+        this.props.addComment(dishId, this.state.rating, this.state.author, this.state.comment);
     }
 
     toggleModal = () => {
-        this.setState({ 
-            toggleModal: !this.state.toggleModal ,
-            comment : '',
-            author : '',
-            rating : 0
-         })
+        this.setState({
+            toggleModal: !this.state.toggleModal,
+            comment: '',
+            author: '',
+            rating: 0
+        })
     }
 
     render() {
@@ -76,16 +77,16 @@ class Dishdetail extends Component {
                         <Input
                             placeholder='Author'
                             leftIcon={{ type: 'font-awesome', name: 'user-o' }}
-                            onChangeText={value => this.setState({author : value})}
+                            onChangeText={value => this.setState({ author: value })}
                         />
                         <Input
                             placeholder='Comment'
                             leftIcon={{ type: 'font-awesome', name: 'comment-o' }}
-                            onChangeText={value => this.setState({comment : value})}
+                            onChangeText={value => this.setState({ comment: value })}
 
                         />
-                        <Button color="#512DA7" onPress={() => {this.handleCommentSubmit(dishId) ; this.toggleModal()}} title={'Submit'} />
-                        <View  style={StyleSheet.create({height :20})}></View>
+                        <Button color="#512DA7" onPress={() => { this.handleCommentSubmit(dishId); this.toggleModal() }} title={'Submit'} />
+                        <View style={StyleSheet.create({ height: 20 })}></View>
                         <Button color="#808080" onPress={() => this.toggleModal()} title={'Cancel'} />
                     </View>
                 </Modal>
@@ -100,31 +101,33 @@ function RenderDish(props) {
 
     if (dish != null) {
         return (
-            <Card>
-                <Card.Title >{dish.name}</Card.Title>
-                <Image style={{ width: 350 }} source={{ uri: baseUrl + dish.image }} />
-                <Text style={{ margin: 10 }}>
-                    {dish.description}
-                </Text>
-                <View style={styles.Icons}>
-                    <Icon
-                        raised
-                        reverse
-                        name={props.favorite ? 'heart' : 'heart-o'}
-                        type='font-awesome'
-                        color='#f50'
-                        onPress={() => props.favorite ? console.log('Already favorite') : props.onPress()}
-                    />
-                    <Icon
-                        raised
-                        reverse
-                        name={'pencil'}
-                        type='font-awesome'
-                        color='#512DA7'
-                        onPress={() => props.toggleModal()}
-                    />
-                </View>
-            </Card>
+            <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+                <Card>
+                    <Card.Title >{dish.name}</Card.Title>
+                    <Image style={{ width: 350 }} source={{ uri: baseUrl + dish.image }} />
+                    <Text style={{ margin: 10 }}>
+                        {dish.description}
+                    </Text>
+                    <View style={styles.Icons}>
+                        <Icon
+                            raised
+                            reverse
+                            name={props.favorite ? 'heart' : 'heart-o'}
+                            type='font-awesome'
+                            color='#f50'
+                            onPress={() => props.favorite ? console.log('Already favorite') : props.onPress()}
+                        />
+                        <Icon
+                            raised
+                            reverse
+                            name={'pencil'}
+                            type='font-awesome'
+                            color='#512DA7'
+                            onPress={() => props.toggleModal()}
+                        />
+                    </View>
+                </Card>
+            </Animatable.View>
         );
     }
     else {
@@ -146,14 +149,16 @@ function RenderComments(props) {
     }
 
     return (
-        <Card>
-            <Card.Title>Comments</Card.Title>
-            <FlatList
-                data={comments}
-                renderItem={renderCommentItem}
-                keyExtractor={item => item.id.toString()}
-            />
-        </Card>
+        <Animatable.View animation="fadeInDown" duration={2000} delay={1000}>
+            <Card>
+                <Card.Title>Comments</Card.Title>
+                <FlatList
+                    data={comments}
+                    renderItem={renderCommentItem}
+                    keyExtractor={item => item.id.toString()}
+                />
+            </Card>
+        </Animatable.View>
     );
 }
 
