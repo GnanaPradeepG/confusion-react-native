@@ -7,6 +7,7 @@ import Swipeable from 'react-native-gesture-handler/Swipeable'
 import { Loading } from './LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
 import { deleteFavorite } from '../redux/ActionCreators';
+import { Alert } from 'react-native';
 
 const mapStateToProps = state => {
     return {
@@ -30,12 +31,32 @@ class Favorites extends Component {
 
         const { navigate } = this.props.navigation;
 
+
+
         const renderMenuItem = ({ item, index }) => {
             const rightButton = () => {
-
+                const RenderAlert = () => {
+                    return(
+                        Alert.alert(
+                            'Delete Favorite?',
+                            'Are you sure you wish to delete the favorite dish ' + item.name + '?',
+                            [
+                                { 
+                                    text: 'Cancel', 
+                                    onPress: () => console.log(item.name + 'Not Deleted'),
+                                    style: ' cancel'
+                                },
+                                {
+                                    text: 'OK',
+                                    onPress: () => this.props.deleteFavorite(item.id)
+                                }
+                            ],
+                            { cancelable: false }
+                        )
+                    )
+                }
                 return(
-                    <>
-                        <TouchableOpacity onPress={() => this.props.deleteFavorite(item.id)}>
+                        <TouchableOpacity onPress={RenderAlert}>
                             <View style={{flex:1, backgroundColor: 'red', justifyContent: 'center'}}>
                                 <Animated.Text style={{color: 'white', paddingHorizontal: 10,
                                         fontWeight:'600'}}>
@@ -43,7 +64,6 @@ class Favorites extends Component {
                                 </Animated.Text>
                             </View>
                         </TouchableOpacity>
-                    </>
                 );
             }
 
