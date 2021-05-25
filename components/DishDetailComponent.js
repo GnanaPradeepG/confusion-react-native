@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, Image, StyleSheet ,  Alert, PanResponder } from 'react-native';
+import { Text, View, Image, StyleSheet, Alert, PanResponder } from 'react-native';
 import { Card, Icon, Rating, Input } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { FlatList, ScrollView } from 'react-native-gesture-handler';
@@ -56,7 +56,7 @@ class Dishdetail extends Component {
             rating: 0
         })
     }
-    
+
 
     render() {
         const dishId = this.props.route.params.dishId;
@@ -101,19 +101,26 @@ function RenderDish(props) {
     const dish = props.dish;
 
     const recognizeDrag = ({ moveX, moveY, dx, dy }) => {
-        if ( dx < -200 )
+        if (dx < -200)
+            return true;
+        else
+            return false;
+    }
+
+    const recognizeComment = ({ moveX, moveY, dx, dy }) => {
+        if (dx > -200)
             return true;
         else
             return false;
     }
 
     handleViewRef = ref => this.view = ref;
-    
+
     const panResponder = PanResponder.create({
         onStartShouldSetPanResponder: (e, gestureState) => {
             return true;
         },
-        onPanResponderGrant: () => {this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled'));},
+        onPanResponderGrant: () => { this.view.rubberBand(1000).then(endState => console.log(endState.finished ? 'finished' : 'cancelled')); },
         onPanResponderEnd: (e, gestureState) => {
             console.log("pan responder end", gestureState);
             if (recognizeDrag(gestureState))
@@ -121,12 +128,16 @@ function RenderDish(props) {
                     'Add Favorite',
                     'Are you sure you wish to add ' + dish.name + ' to favorite?',
                     [
-                    {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
-                    {text: 'OK', onPress: () => {props.favorite ? console.log('Already favorite') : props.onPress()}},
+                        { text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel' },
+                        { text: 'OK', onPress: () => { props.favorite ? console.log('Already favorite') : props.onPress() } },
                     ],
                     { cancelable: false }
                 );
-    
+
+            if (recognizeComment(gestureState)) {
+                props.toggleModal();
+            }
+
             return true;
         }
     })
