@@ -12,6 +12,7 @@ import About from "./AboutComponent";
 import Contact from "./ContactComponent";
 import Reservation from './ReservationComponent';
 import Favorites from './FavoritesComponent';
+import Login from './LoginComponent';
 
 import { connect } from 'react-redux';
 import { fetchDishes, fetchComments, fetchPromos, fetchLeaders, postComment } from '../redux/ActionCreators';
@@ -70,6 +71,33 @@ const CustomDrawerContentComponent = (props) => (
         </SafeAreaView>
     </DrawerContentScrollView>
 );
+
+const LoginNavigator = createStackNavigator();
+
+function LoginNavigatorScreen({ navigation }) {
+    return (
+        <LoginNavigator.Navigator
+            initialRouteName='Login'
+            screenOptions={{
+                headerStyle: {
+                    backgroundColor: "#31B76C"
+                },
+                headerTintColor: "#fff",
+                headerTitleStyle: {
+                    color: "#fff"
+                }
+            }}
+        >
+            <LoginNavigator.Screen
+                name="Login"
+                component={Login}
+                options={{
+                    headerLeft: () => <StackNavigatorIcon navigation={navigation} />
+                }}
+            />
+        </LoginNavigator.Navigator>
+    );
+}
 
 const MenuNavigator = createStackNavigator();
 
@@ -244,12 +272,18 @@ const Drawer = createDrawerNavigator();
 function MainNavigator({ navigation }) {
     return (
 
+
         <Drawer.Navigator initialRouteName="Home"
             drawerStyle={{
                 backgroundColor: "#D1C4E9"
             }}
             drawerContent={props => <CustomDrawerContentComponent {...props} />}
         >
+            <Drawer.Screen name="Login" component={LoginNavigatorScreen}
+                options={{
+                    drawerIcon: () => <DrawerNavigatorIcon name='sign-in' />
+                }}
+            />
             <Drawer.Screen name="Home" component={HomeNavigatorScreen}
                 options={{
                     drawerIcon: () => <DrawerNavigatorIcon name='home' />
