@@ -5,6 +5,7 @@ import DatePicker from 'react-native-datepicker';
 import * as Animatable from 'react-native-animatable';
 import * as Permissions from 'expo-permissions';
 import { Notifications } from 'expo';
+import * as Calendar from 'expo-calendar';
 
 class Reservation extends Component {
 
@@ -14,8 +15,9 @@ class Reservation extends Component {
         this.state = {
             guests: 1,
             smoking: false,
-            date: ''
+            date: new Date()
         }
+        this.handleReservation = this.handleReservation.bind(this)
     }
 
     static navigationOptions = {
@@ -23,8 +25,68 @@ class Reservation extends Component {
     };
 
     handleReservation() {
-        this.resetForm();
-        console.log(JSON.stringify(this.state));
+        const { date, guests, smoking } = this.state;
+
+        Alert.alert(
+            'Your Reservation OK?',
+            `Number of guests: ${guests}\nSmoking? ${smoking ? 'Yes' : 'No'}\nDate and Time:${date}`,
+            [
+                {
+                    text: 'Cancel',
+                    style: 'cancel',
+                    onPress: () => this.resetForm(),
+                },
+                {
+                    text: 'OK',
+                    onPress: () => {
+                        this.addReservationToCalendar(new Date())
+                        this.resetForm()
+                    },
+                },
+            ],
+            { cancelable: false },
+        );
+    }
+
+    async obtainCalendarPermission() {
+        let permission = await Permissions.getAsync(Permissions.CALENDAR);
+        if (permission.status !== 'granted') {
+            permission = await Permissions.askAsync(Permissions.CALENDAR);
+            if (permission.status !== 'granted') {
+                Alert.alert('Permission not granted to access the calendar');
+            }
+        }
+        return permission;
+    }
+
+    async addReservationToCalendar() {
+        
+        await this.obtainCalendarPermission();
+        
+        let dateCurr = Date.parse(this.state.date);
+        let endDate = new Date(dateCurr + 3600 * 2 * 1000);
+        
+        const defaultCalendarSource=Platform.OS==='ios'?await this.getDefaultCalendarSource()
+        : { isLocalAccount: true, name: 'Expo Calendar' };
+        
+        const defaultCalendarId=await Calendar.createCalendarAsync({
+            title: 'Your Reservation at Con Fusion',
+            color: 'blue',
+            entityType: Calendar.EntityTypes.EVENT,
+            sourceId: defaultCalendarSource.id,
+            source : defaultCalendarSource,
+            name: 'internalCalendarName',
+            ownerAccount: 'personal',
+            accessLevel: Calendar.CalendarAccessLevel.OWNER,
+        });
+
+        await Calendar.createEventAsync(defaultCalendarId, {
+            title: 'Con Fusion Table Reservation',
+            startDate: this.state.date,
+            endDate: endDate,
+            timeZone: 'Asia/Hong_Kong',
+            location: '121, Clear Water Bay Road, Clear Water Bay, Kowloon, Hong Kong'
+        });
     }
 
     resetForm() {
@@ -51,7 +113,7 @@ class Reservation extends Component {
         await this.obtainNotificationPermission();
         Notifications.presentLocalNotificationAsync({
             title: 'Your Reservation',
-            body: 'Reservation for '+ date + ' requested',
+            body: 'Reservation for ' + date + ' requested',
             ios: {
                 sound: true
             },
@@ -64,24 +126,25 @@ class Reservation extends Component {
     }
 
     render() {
-        const Alerter = () => {
-            return (
-                Alert.alert(
-                    'Your Reservation OK?',
-                    `Number of Guests : ${this.state.guests} \nSmoking? ${this.state.smoking}\nDate and Time : ${this.state.date}`,
-                    [
-                        { text: 'Cancel', onPress: () => this.resetForm(), style: 'cancel' },
-                        {
-                            text: 'OK', onPress: () => {
-                                this.presentLocalNotification(this.state.date);
-                                this.resetForm()
-                            }
-                        },
-                    ],
-                    { cancelable: false }
-                )
-            );
-        }
+        // const Alerter = () => {
+        //     return (
+        //         Alert.alert(
+        //             'Your Reservation OK?',
+        //             `Number of Guests : ${this.state.guests} \nSmoking? ${this.state.smoking}\nDate and Time : ${this.state.date}`,
+        //             [
+        //                 { text: 'Cancel', onPress: () => this.resetForm(), style: 'cancel' },
+        //                 {
+        //                     text: 'OK', onPress: () => {
+        //                         this.presentLocalNotification(this.state.date);
+        //                         this.handleReservation()
+        //                         this.resetForm()
+        //                     }
+        //                 },
+        //             ],
+        //             { cancelable: false }
+        //         )
+        //     );
+        // }
         return (
             <Animatable.View animation="zoomIn" duration={2000} delay={1000}>
                 <ScrollView>
@@ -136,7 +199,7 @@ class Reservation extends Component {
                     </View>
                     <View style={styles.formRow}>
                         <Button
-                            onPress={Alerter}
+                            onPress={this.handleReservation}
                             title="Reserve"
                             color="#512DA8"
                             accessibilityLabel="Learn more about this purple button"
